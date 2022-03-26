@@ -9,8 +9,8 @@ function App() {
   const [ocrData, setOcrData] = useState("")
 
   // Spotify API
-  const CLIENT_ID = "0802d1ebd8944a76bb0c37e6cab2a871"
-  const REDIRECT_URI = "http://localhost:3000"
+  const CLIENT_ID = "661ba48ba8704beca5caae215fec26b5"
+  const REDIRECT_URI = "http://localhost:3000/callback"
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
   const RESPONSE_TYPE = "token"
   const [token, setToken] = useState("")
@@ -78,23 +78,30 @@ function App() {
             limit: 1
         }
     })
-    setArtists(data.artists.items)
-    
-    
+    setArtists(data.artists.items);
     artistID = data.artists.items[0].uri.substring(15);
-
-    const {tracks} = await axios.get("https://api.spotify.com/v1/artists/{id}/top-tracks", {
-        headers: {
-            Authorization: `Bearer ${token}`
-        },
-        params: {
-            id: artistID,
-            market: "us"
-        }
-    })
-
-    console.log(tracks.body);
+    getTracks();
   }
+
+  const getTracks = async (e) => {
+    fetch("https://api.spotify.com/v1/artists/" + artistID + "/top-tracks?market=US", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        q: searchKey,
+        type: "artist",
+        limit: 1
+      },
+      method: "GET"
+    })     
+    .then(response => response.json())
+    .then(responseJSON => {
+      console.log(responseJSON.tracks[0].uri);
+      console.log(responseJSON.tracks[1].uri);
+      console.log(responseJSON.tracks[2].uri);
+    });
+  };
 
   // display artist function
   const renderArtists = () => {
