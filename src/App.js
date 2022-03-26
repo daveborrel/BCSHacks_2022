@@ -6,7 +6,7 @@ import SpotifySender from "./components/SpotifySender"
 
 // Spotify API
 const CLIENT_ID = "55ee11e7110b4bfe8d1466e85f42fb78"
-const REDIRECT_URI = "http://localhost:3000"
+const REDIRECT_URI = "http://localhost:3000/callback"
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
 const RESPONSE_TYPE = "token"
 
