@@ -15,7 +15,11 @@ function App() {
 
   // Receive OCR data as a prop from the child component
   const onReadOcrData = (ocrData) => {
-    setOcrData(ocrData)
+
+    var myArray = ocrData.split(" - ")
+    var test = myArray[Math.floor(Math.random()*myArray.length)];
+
+    setOcrData(test)
   }
 
   // Prop detects that the change image button was clicked
