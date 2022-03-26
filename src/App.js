@@ -32,13 +32,8 @@ function App() {
       // and grab the artist_id directly.
     }
 
-<<<<<<< HEAD
-    var test = myArray[Math.floor(Math.random()*myArray.length)];
-    setOcrData(myArray)
-=======
     var test = myArray[Math.floor(Math.random() * myArray.length)];
     setOcrData(test)
->>>>>>> 10327e7660683fce2e7e50995a3027e79197d888
   }
 
   // Prop detects that the change image button was clicked
@@ -71,7 +66,6 @@ function App() {
   // search artist function 
   const searchArtists = async (e) => {
     e.preventDefault()
-<<<<<<< HEAD
     const {data} = await axios.get("https://api.spotify.com/v1/search", {
         headers: {
             Authorization: `Bearer ${token}`
@@ -81,16 +75,6 @@ function App() {
             type: "artist",
             limit: 1
         }
-=======
-    const { data } = await axios.get("https://api.spotify.com/v1/search", {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      params: {
-        q: searchKey,
-        type: "artist"
-      },
->>>>>>> 10327e7660683fce2e7e50995a3027e79197d888
     })
     setArtists(data.artists.items)
     //setArtists(myArray[3])
@@ -115,7 +99,6 @@ function App() {
       />
       {ocrData}
 
-<<<<<<< HEAD
     {/* Login to Spotify */}
     {!token ?
           <button><a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login
@@ -129,21 +112,6 @@ function App() {
           </form>
           : <h2>Please login</h2>
         }
-=======
-      {/* Login to Spotify */}
-      {!token ?
-        <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login
-          to Spotify</a>
-        : <button onClick={logout}>Logout</button>}
-
-      {token ?
-        <form onSubmit={searchArtists}>
-          <input type="text" onChange={e => setSearchKey(e.target.value)} />
-          <button type={"submit"}>Search</button>
-        </form>
-        : <h2>Please login</h2>
-      }
->>>>>>> 10327e7660683fce2e7e50995a3027e79197d888
 
       {renderArtists()}
     </div>
