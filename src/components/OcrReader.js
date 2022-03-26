@@ -4,9 +4,9 @@ import { createWorker } from "tesseract.js"
 // OCR Statuses
 const STATUSES = {
   IDLE: "",
-  FAILED: "Failed to perform OCR",
+  FAILED: "Processing failed",
   PENDING: "Processing...",
-  SUCCEEDED: "OCR processing complete",
+  SUCCEEDED: "",
 }
 
 function OcrReader({onReadOcrData, onRemoveClicked}) {
@@ -49,18 +49,18 @@ function OcrReader({onReadOcrData, onRemoveClicked}) {
       <div>
         {selectedImage?
           <div className="button-container">
-            <button onClick={readImageText}>Process the image with OCR</button>
+            <button onClick={readImageText}>Continue</button>
             <button
               className="remove-button"
               disabled={ocrState === STATUSES.PENDING}
               onClick={handleRemoveClicked}
             >
-                Use another image
+                Back
             </button>
           </div>
           :
           <>
-            <p>Upload an image to process</p>
+            <p>Upload your festival line up!</p>
             <input
               type="file"
               name="ocr-image"
@@ -68,7 +68,7 @@ function OcrReader({onReadOcrData, onRemoveClicked}) {
                 setSelectedImage(event.target.files[0])
               }}
             />
-            <p>Supported formats:bmp, jpg, png, pbm</p>
+            {/* <p>Supported formats: bmp, jpg, png, pbm</p> */}
           </>
         }
       </div>

@@ -19,11 +19,14 @@ function App() {
   const [searchKey, setSearchKey] = useState("")
   const [artists, setArtists] = useState([])
 
+    let newOcrData = ""
+    var myArray = ""
+
   // Receive OCR data as a prop from the child component
   const onReadOcrData = (ocrData) => {
 
     let newOcrData = ocrData.replace(/[^a-z0-9]/gmi, " ").replace(/\s+/g, " ");
-    var myArray = newOcrData.split(" ")
+    myArray = newOcrData.split(" ")
 
     for (let i = 0; i < myArray; i++) {
       // TODO:
@@ -32,7 +35,7 @@ function App() {
     }
 
     var test = myArray[Math.floor(Math.random()*myArray.length)];
-    setOcrData(test)
+    setOcrData(myArray)
   }
 
   // Prop detects that the change image button was clicked
@@ -62,6 +65,7 @@ function App() {
     window.localStorage.removeItem("token")
   }
 
+  // search artist function 
   const searchArtists = async (e) => {
     e.preventDefault()
     const {data} = await axios.get("https://api.spotify.com/v1/search", {
@@ -70,13 +74,15 @@ function App() {
         },
         params: {
             q: searchKey,
-            type: "artist"
+            type: "artist",
+            limit: 1
         }
     })
-
     setArtists(data.artists.items)
+    //setArtists(myArray[3])
   }
 
+  // display artist function
   const renderArtists = () => {
     return artists.map(artist => (
       <div key={artist.id}>
@@ -97,8 +103,8 @@ function App() {
 
     {/* Login to Spotify */}
     {!token ?
-          <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login
-          to Spotify</a>
+          <button><a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login
+          to Spotify</a></button>
           : <button onClick={logout}>Logout</button>}
 
     {token ?
