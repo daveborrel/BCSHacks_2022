@@ -16,6 +16,7 @@ function App() {
   const [token, setToken] = useState("")
   const [searchKey, setSearchKey] = useState("")
   const [artists, setArtists] = useState([])
+  var artistID = ""
 
     let newOcrData = ""
     var myArray = ""
@@ -76,8 +77,21 @@ function App() {
             limit: 1
         }
     })
+    
     setArtists(data.artists.items)
-    //setArtists(myArray[3])
+    artistID = data.artists.items[0].uri.substring(15);
+
+    const {tracks} = await axios.get("https://api.spotify.com/v1/artists/{id}/top-tracks", {
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        params: {
+            id: artistID,
+            market: "us"
+        }
+    })
+
+    console.log(tracks.body);
   }
 
   // display artist function
