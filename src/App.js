@@ -5,8 +5,6 @@ import OcrReader from "./components/OcrReader"
 import SpotifySender from "./components/SpotifySender"
 import axios from 'axios';
 
-
-
 function App() {
   const [ocrData, setOcrData] = useState("")
 
