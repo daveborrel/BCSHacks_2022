@@ -9,8 +9,8 @@ function App() {
   const [ocrData, setOcrData] = useState("")
 
   // Spotify API
-  const CLIENT_ID = "55ee11e7110b4bfe8d1466e85f42fb78"
-  const REDIRECT_URI = "http://localhost:3000/callback"
+  const CLIENT_ID = "0802d1ebd8944a76bb0c37e6cab2a871"
+  const REDIRECT_URI = "http://localhost:3000"
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
   const RESPONSE_TYPE = "token"
   const [token, setToken] = useState("")
