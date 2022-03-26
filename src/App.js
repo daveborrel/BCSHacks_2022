@@ -35,6 +35,7 @@ function App() {
 
     var test = myArray[Math.floor(Math.random() * myArray.length)];
     setOcrData(test)
+    setSearchKey(test)
   }
 
   // Prop detects that the change image button was clicked
@@ -77,8 +78,9 @@ function App() {
             limit: 1
         }
     })
-    
     setArtists(data.artists.items)
+    
+    
     artistID = data.artists.items[0].uri.substring(15);
 
     const {tracks} = await axios.get("https://api.spotify.com/v1/artists/{id}/top-tracks", {
