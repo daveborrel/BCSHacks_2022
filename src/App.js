@@ -9,6 +9,7 @@ function App() {
   const [ocrData, setOcrData] = useState("")
 
   // Spotify API
+  const USER_ID = "12175026036"
   const CLIENT_ID = "0802d1ebd8944a76bb0c37e6cab2a871"
   const REDIRECT_URI = "http://localhost:3000"
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
@@ -21,17 +22,50 @@ function App() {
     let newOcrData = ""
     var myArray = ""
 
-  // Receive OCR data as a prop from the child component
+  
+  // creates a playlist
+  const createPlaylist = async (e) => {
+    e.preventDefault()
+    const emptyPlaylist = await fetch('https://api.spotify.com/v1/users/' + USER_ID + '/playlists', {
+      method: 'POST',
+      body: JSON.stringify({
+        'name': 'Intersection Test',
+        'public': false,
+      }),
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    });
+  }
+
+  const addTrack = (track_id) => {
+    const track = fetch('https://api.spotify.com/v1/users/' + USER_ID + '/playlists', {
+      method: 'POST',
+      body: JSON.stringify({
+        'name': 'Intersection Test',
+        'public': false,
+      }),
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    });
+  }
+  
+    // Receive OCR data as a prop from the child component
   const onReadOcrData = (ocrData) => {
 
     let newOcrData = ocrData.replace(/[^a-z0-9]/gmi, " ").replace(/\s+/g, " ");
     myArray = newOcrData.split(" ")
-
-    for (let i = 0; i < myArray; i++) {
-      // TODO:
-      // for every element of myArray, we can use the Spotify /search api to find top 1 artist
-      // and grab the artist_id directly.
-    }
 
     var test = myArray[Math.floor(Math.random() * myArray.length)];
     setOcrData(test)
@@ -63,10 +97,11 @@ function App() {
     setToken("")
     window.localStorage.removeItem("token")
   }
-
+  
   // search artist function 
   const searchArtists = async (e) => {
     e.preventDefault()
+    createPlaylist()
     const {data} = await axios.get("https://api.spotify.com/v1/search", {
         headers: {
             Authorization: `Bearer ${token}`
@@ -120,7 +155,7 @@ function App() {
           : <button onClick={logout}>Logout</button>}
 
     {token ?
-          <form onSubmit={searchArtists}>
+          <form onSubmit={createPlaylist}>
               <input type="text" onChange={e => setSearchKey(e.target.value)}/>
               <button type={"submit"}>Search</button>
           </form>
