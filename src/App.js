@@ -1,32 +1,14 @@
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
-
+import logo from './logo.svg';
+import './App.css';
 import { useState } from "react"
 import OcrReader from "./components/OcrReader"
-import SmsSender from "./components/SpotifySender"
+import SpotifySender from "./components/SpotifySender"
+
+// Spotify API
+const CLIENT_ID = "55ee11e7110b4bfe8d1466e85f42fb78"
+const REDIRECT_URI = "http://localhost:3000"
+const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
+const RESPONSE_TYPE = "token"
 
 function App() {
   const [ocrData, setOcrData] = useState("")
@@ -49,6 +31,9 @@ function App() {
         onRemoveClicked={onRemoveClicked}
       />
       {ocrData}
+
+    {/* Login to Spotify */}
+      <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
     </div>
   )
 }
