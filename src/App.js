@@ -1,11 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import OcrReader from "./components/OcrReader"
 import SpotifySender from "./components/SpotifySender"
 import axios from 'axios';
-
-
 
 function App() {
   const [ocrData, setOcrData] = useState("")
@@ -34,8 +32,13 @@ function App() {
       // and grab the artist_id directly.
     }
 
+<<<<<<< HEAD
     var test = myArray[Math.floor(Math.random()*myArray.length)];
     setOcrData(myArray)
+=======
+    var test = myArray[Math.floor(Math.random() * myArray.length)];
+    setOcrData(test)
+>>>>>>> 10327e7660683fce2e7e50995a3027e79197d888
   }
 
   // Prop detects that the change image button was clicked
@@ -49,15 +52,15 @@ function App() {
     let token = window.localStorage.getItem("token")
 
     if (!token && hash) {
-        token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
+      token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
 
-        window.location.hash = ""
-        window.localStorage.setItem("token", token)
+      window.location.hash = ""
+      window.localStorage.setItem("token", token)
     }
 
     setToken(token)
 
-}, [])
+  }, [])
 
   // logout button 
   const logout = () => {
@@ -68,6 +71,7 @@ function App() {
   // search artist function 
   const searchArtists = async (e) => {
     e.preventDefault()
+<<<<<<< HEAD
     const {data} = await axios.get("https://api.spotify.com/v1/search", {
         headers: {
             Authorization: `Bearer ${token}`
@@ -77,6 +81,16 @@ function App() {
             type: "artist",
             limit: 1
         }
+=======
+    const { data } = await axios.get("https://api.spotify.com/v1/search", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      params: {
+        q: searchKey,
+        type: "artist"
+      },
+>>>>>>> 10327e7660683fce2e7e50995a3027e79197d888
     })
     setArtists(data.artists.items)
     //setArtists(myArray[3])
@@ -86,8 +100,8 @@ function App() {
   const renderArtists = () => {
     return artists.map(artist => (
       <div key={artist.id}>
-          {artist.images.length ? <img width={"100%"} src={artist.images[0].url} alt=""/> : <div>No Image</div>}
-          {artist.name}
+        {artist.images.length ? <img width={"100%"} src={artist.images[0].url} alt="" /> : <div>No Image</div>}
+        {artist.name}
       </div>
     ))
   }
@@ -101,6 +115,7 @@ function App() {
       />
       {ocrData}
 
+<<<<<<< HEAD
     {/* Login to Spotify */}
     {!token ?
           <button><a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login
@@ -114,6 +129,21 @@ function App() {
           </form>
           : <h2>Please login</h2>
         }
+=======
+      {/* Login to Spotify */}
+      {!token ?
+        <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login
+          to Spotify</a>
+        : <button onClick={logout}>Logout</button>}
+
+      {token ?
+        <form onSubmit={searchArtists}>
+          <input type="text" onChange={e => setSearchKey(e.target.value)} />
+          <button type={"submit"}>Search</button>
+        </form>
+        : <h2>Please login</h2>
+      }
+>>>>>>> 10327e7660683fce2e7e50995a3027e79197d888
 
       {renderArtists()}
     </div>
