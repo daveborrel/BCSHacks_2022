@@ -16,9 +16,16 @@ function App() {
   // Receive OCR data as a prop from the child component
   const onReadOcrData = (ocrData) => {
 
-    var myArray = ocrData.split(" - ")
-    var test = myArray[Math.floor(Math.random()*myArray.length)];
+    let newOcrData = ocrData.replace(/[^a-z0-9]/gmi, " ").replace(/\s+/g, " ");
+    var myArray = newOcrData.split(" ")
 
+    for (let i = 0; i < myArray; i++) {
+      // TODO:
+      // for every element of myArray, we can use the Spotify /search api to find top 1 artist
+      // and grab the artist_id directly.
+    }
+
+    var test = myArray[Math.floor(Math.random()*myArray.length)];
     setOcrData(test)
   }
 
