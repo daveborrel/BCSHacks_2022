@@ -17,6 +17,10 @@ function App() {
   const [searchKey, setSearchKey] = useState("")
   const [artists, setArtists] = useState([])
   var artistID = ""
+  var track1 = ""
+  var track2 = ""
+  var track3 = ""
+  var playlistID = ""
 
     let newOcrData = ""
     var myArray = ""
@@ -83,6 +87,7 @@ function App() {
     getTracks();
   }
 
+  // get top three tracks of artist
   const getTracks = async (e) => {
     fetch("https://api.spotify.com/v1/artists/" + artistID + "/top-tracks?market=US", {
       headers: {
@@ -97,11 +102,48 @@ function App() {
     })     
     .then(response => response.json())
     .then(responseJSON => {
-      console.log(responseJSON.tracks[0].uri);
-      console.log(responseJSON.tracks[1].uri);
-      console.log(responseJSON.tracks[2].uri);
+      track1 = responseJSON.tracks[0].uri;
+      track2 = responseJSON.tracks[1].uri;
+      track3 = responseJSON.tracks[2].uri;
+    });
+
+    getPlaylist();
+    addToPlaylist();
+  };
+
+    // get newly created playlist
+    const getPlaylist = async (e) => {
+      fetch("https://api.spotify.com/v1/me/playlists", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        method: "GET"
+      })     
+      .then(response => response.json())
+      .then(responseJSON => {
+        console.log(responseJSON.items[0].uri);
+        console.log(playlistID);
+      });
+    };
+
+  // add tracks to playlist
+  const addToPlaylist = async (e) => {
+    fetch("https://api.spotify.com/v1/playlists/{playlist_id}/tracks", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        playlist_id: playlistID,
+        uris: track1 + "," + track2 + "," + track3,
+      },
+      method: "POST"
+    })     
+    .then(response => response.json())
+    .then(responseJSON => {
+      console.log(responseJSON.items[0].uri);
     });
   };
+
 
   // display artist function
   const renderArtists = () => {
