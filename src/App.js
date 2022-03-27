@@ -207,7 +207,7 @@ function App() {
     {token ?
           <form onSubmit={createPlaylist}>
               <input type="text" onChange={e => setSearchKey(e.target.value)}/>
-              <button type={"submit"}>Search</button>
+              <button type={"submit"}>Create Playlist!</button>
           </form>
           : <h2>Please login</h2>
         }
