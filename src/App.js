@@ -9,7 +9,7 @@ function App() {
   const [ocrData, setOcrData] = useState("")
 
   // Spotify API
-  const USER_ID = "12175026036"
+  const USER_ID = "christing19"
   const CLIENT_ID = "0802d1ebd8944a76bb0c37e6cab2a871"
   const REDIRECT_URI = "http://localhost:3000"
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
@@ -34,7 +34,7 @@ function App() {
       method: 'POST',
       body: JSON.stringify({
         'name': 'Intersection Test',
-        'public': false,
+        'public': true,
       }),
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -46,6 +46,8 @@ function App() {
         console.log(data);
         alert('Spotify Playlist Created!');
     });
+
+    searchArtists();
   }
 
   const addTrack = (track_id) => {
@@ -106,8 +108,8 @@ function App() {
   
   // search artist function 
   const searchArtists = async (e) => {
-    e.preventDefault()
-    createPlaylist()
+    // e.preventDefault()
+    // createPlaylist()
     const {data} = await axios.get("https://api.spotify.com/v1/search", {
         headers: {
             Authorization: `Bearer ${token}`
@@ -157,14 +159,14 @@ function App() {
       })     
       .then(response => response.json())
       .then(responseJSON => {
-        console.log(responseJSON.items[0].uri);
+        playlistID = responseJSON.items[0].uri.substring(17);
         console.log(playlistID);
       });
     };
 
   // add tracks to playlist
   const addToPlaylist = async (e) => {
-    fetch("https://api.spotify.com/v1/playlists/{playlist_id}/tracks", {
+    fetch("https://api.spotify.com/v1/playlists/" + playlistID + "/tracks", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -173,11 +175,7 @@ function App() {
         uris: track1 + "," + track2 + "," + track3,
       },
       method: "POST"
-    })     
-    .then(response => response.json())
-    .then(responseJSON => {
-      console.log(responseJSON.items[0].uri);
-    });
+    })
   };
 
 
